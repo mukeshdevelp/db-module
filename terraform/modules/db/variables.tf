@@ -22,3 +22,4 @@ variable "scylla_instance_type" {
 variable "ami_id" {}
 
 variable "domain_name" {}
+

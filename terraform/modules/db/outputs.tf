@@ -15,19 +15,7 @@ output "scylla_ip" {
 }
 
 # --------------------------------------------------
-# HOSTED ZONE
-# --------------------------------------------------
-
-output "hosted_zone_id" {
-  value = data.aws_route53_zone.main.zone_id
-}
-
-output "hosted_zone_name" {
-  value = data.aws_route53_zone.main.name
-}
-
-# --------------------------------------------------
-# DNS RECORDS
+# PRIVATE DNS
 # --------------------------------------------------
 
 output "redis_dns" {
@@ -40,4 +28,16 @@ output "postgres_dns" {
 
 output "scylla_dns" {
   value = aws_route53_record.scylla_record.fqdn
+}
+
+# --------------------------------------------------
+# HOSTED ZONE
+# --------------------------------------------------
+
+output "private_hosted_zone_id" {
+  value = aws_route53_zone.private.zone_id
+}
+
+output "private_hosted_zone_name" {
+  value = aws_route53_zone.private.name
 }

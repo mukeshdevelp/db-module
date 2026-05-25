@@ -1,31 +1,31 @@
 # --------------------------------------------------
-# FETCH EXISTING HOSTED ZONE USING TAGS
+# PRIVATE HOSTED ZONE
 # --------------------------------------------------
 
-data "aws_route53_zone" "main" {
-  name         = var.domain_name
-  private_zone = false
+resource "aws_route53_zone" "private" {
+  name = "internal.otms"
+
+  vpc {
+    vpc_id = var.vpc_id
+  }
 
   tags = {
-    Application = "otms"
-    Environment = "dev"
+    Name        = "${var.environment}-${var.project}-private-hz"
+    Environment = var.environment
+    Project     = var.project
     ManagedBy   = "Terraform"
-    Name        = "dev-otms-hz"
     Owner       = "platform-team"
-    Project     = "OTMS"
-    Sprint      = "1"
-    CostCenter  = "dev-infra"
   }
 }
 
 # --------------------------------------------------
-# REDIS RECORD
+# REDIS PRIVATE DNS RECORD
 # --------------------------------------------------
 
 resource "aws_route53_record" "redis_record" {
-  zone_id = data.aws_route53_zone.main.zone_id
+  zone_id = aws_route53_zone.private.zone_id
 
-  name = "redis.${var.domain_name}"
+  name = "redis.internal.otms"
 
   type = "A"
   ttl  = 300
@@ -34,13 +34,13 @@ resource "aws_route53_record" "redis_record" {
 }
 
 # --------------------------------------------------
-# POSTGRES RECORD
+# POSTGRES PRIVATE DNS RECORD
 # --------------------------------------------------
 
 resource "aws_route53_record" "postgres_record" {
-  zone_id = data.aws_route53_zone.main.zone_id
+  zone_id = aws_route53_zone.private.zone_id
 
-  name = "postgres.${var.domain_name}"
+  name = "postgres.internal.otms"
 
   type = "A"
   ttl  = 300
@@ -49,13 +49,13 @@ resource "aws_route53_record" "postgres_record" {
 }
 
 # --------------------------------------------------
-# SCYLLA RECORD
+# SCYLLA PRIVATE DNS RECORD
 # --------------------------------------------------
 
 resource "aws_route53_record" "scylla_record" {
-  zone_id = data.aws_route53_zone.main.zone_id
+  zone_id = aws_route53_zone.private.zone_id
 
-  name = "scylla.${var.domain_name}"
+  name = "scylla.internal.otms"
 
   type = "A"
   ttl  = 300

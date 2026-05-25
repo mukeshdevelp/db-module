@@ -1,5 +1,3 @@
-
-
 # --------------------------------------------------
 # NETWORK REMOTE STATE
 # --------------------------------------------------
@@ -51,8 +49,8 @@ module "db" {
 
   project     = var.application
   environment = var.environment
-
-  region = var.region
+  region      = var.region
+  domain_name = var.domain_name
 
   vpc_id = data.terraform_remote_state.network.outputs.vpc_id
 
@@ -61,8 +59,7 @@ module "db" {
   )[0]
 
   key_name = data.aws_key_pair.selected.key_name
+  ami_id   = data.aws_ami.ubuntu.id
 
-  ami_id = data.aws_ami.ubuntu.id
-
-  domain_name = "gaganawasthi.online"
-}
+  
+}       
