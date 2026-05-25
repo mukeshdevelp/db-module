@@ -19,7 +19,7 @@ data "terraform_remote_state" "network" {
 # --------------------------------------------------
 
 data "aws_key_pair" "selected" {
-  key_name = "dev-key"
+  key_name = "${var.environment}-${var.application}-keypair"
 }
 
 # --------------------------------------------------
@@ -49,15 +49,17 @@ data "aws_ami" "ubuntu" {
 module "db" {
   source = "../../modules/db"
 
-  project     = "otms"
-  environment = "dev"
+  project     = var.application
+  environment = var.environment
 
   region = var.region
 
   vpc_id = data.terraform_remote_state.network.outputs.vpc_id
 
-  private_subnet_id = data.terraform_remote_state.network.outputs.private_subnet_id_list[0]
-  
+  private_subnet_id = values(
+    data.terraform_remote_state.network.outputs.private_subnet_ids
+  )[0]
+
   key_name = data.aws_key_pair.selected.key_name
 
   ami_id = data.aws_ami.ubuntu.id

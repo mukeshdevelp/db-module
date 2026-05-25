@@ -1,10 +1,21 @@
 # --------------------------------------------------
-# FETCH EXISTING HOSTED ZONE
+# FETCH EXISTING HOSTED ZONE USING TAGS
 # --------------------------------------------------
 
 data "aws_route53_zone" "main" {
   name         = var.domain_name
   private_zone = false
+
+  tags = {
+    Application = "otms"
+    Environment = "dev"
+    ManagedBy   = "Terraform"
+    Name        = "dev-otms-hz"
+    Owner       = "platform-team"
+    Project     = "OTMS"
+    Sprint      = "1"
+    CostCenter  = "dev-infra"
+  }
 }
 
 # --------------------------------------------------
