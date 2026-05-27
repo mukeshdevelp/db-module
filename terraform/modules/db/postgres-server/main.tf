@@ -51,3 +51,4 @@ resource "aws_instance" "postgres" {
     Name = "${var.project}-${var.environment}-postgres"
   }
 }
+
