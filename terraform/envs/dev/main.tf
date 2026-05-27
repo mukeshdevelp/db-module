@@ -56,7 +56,7 @@ module "db" {
 
   private_subnet_id = values(
     data.terraform_remote_state.network.outputs.private_subnet_ids
-  )[2]
+  )[3]
 
   key_name = data.aws_key_pair.selected.key_name
   ami_id   = data.aws_ami.ubuntu.id
