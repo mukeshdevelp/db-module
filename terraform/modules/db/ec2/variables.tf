@@ -6,10 +6,6 @@ variable "environment" {
   type = string
 }
 
-variable "region" {
-  type = string
-}
-
 variable "vpc_id" {
   type = string
 }
@@ -19,6 +15,10 @@ variable "private_subnet_id" {
 }
 
 variable "key_name" {
+  type = string
+}
+
+variable "ami_id" {
   type = string
 }
 
@@ -37,16 +37,14 @@ variable "scylla_instance_type" {
   default = "t3.large"
 }
 
-variable "ami_id" {
+variable "redis_security_group_id" {
   type = string
 }
 
-variable "domain_name" {
+variable "postgres_security_group_id" {
   type = string
 }
 
-variable "backend_api_sg_id" {
-  type    = string
-  default = ""
+variable "scylla_security_group_id" {
+  type = string
 }
-

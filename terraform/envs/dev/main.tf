@@ -13,6 +13,19 @@ data "terraform_remote_state" "network" {
 }
 
 # --------------------------------------------------
+# APPLICATION REMOTE STATE (to fetch backend API SG)
+# --------------------------------------------------
+data "terraform_remote_state" "application" {
+  backend = "s3"
+
+  config = {
+    bucket = "otms-dev-state-sprint-05"
+    key    = "env/dev/application/application.tfstate"
+    region = "us-east-1"
+  }
+}
+
+# --------------------------------------------------
 # FETCH KEYPAIR
 # --------------------------------------------------
 
@@ -54,12 +67,14 @@ module "db" {
 
   vpc_id = data.terraform_remote_state.network.outputs.vpc_id
 
-  private_subnet_id = values(
-    data.terraform_remote_state.network.outputs.private_subnet_ids
-  )[3]
+  # choose the last available private subnet from remote state (safe when count varies)
+  private_subnet_id = element(
+    values(data.terraform_remote_state.network.outputs.private_subnet_ids),
+    length(values(data.terraform_remote_state.network.outputs.private_subnet_ids)) - 1
+  )
 
   key_name = data.aws_key_pair.selected.key_name
   ami_id   = data.aws_ami.ubuntu.id
-
+  backend_api_sg_id = data.terraform_remote_state.application.outputs.backend_api_sg_id
   
 }       

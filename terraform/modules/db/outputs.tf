@@ -3,15 +3,15 @@
 # --------------------------------------------------
 
 output "redis_ip" {
-  value = aws_instance.redis.private_ip
+  value = module.ec2.redis_ip
 }
 
 output "postgres_ip" {
-  value = aws_instance.postgres.private_ip
+  value = module.ec2.postgres_ip
 }
 
 output "scylla_ip" {
-  value = aws_instance.scylla.private_ip
+  value = module.ec2.scylla_ip
 }
 
 # --------------------------------------------------
@@ -19,15 +19,15 @@ output "scylla_ip" {
 # --------------------------------------------------
 
 output "redis_dns" {
-  value = aws_route53_record.redis_record.fqdn
+  value = module.route53.redis_dns
 }
 
 output "postgres_dns" {
-  value = aws_route53_record.postgres_record.fqdn
+  value = module.route53.postgres_dns
 }
 
 output "scylla_dns" {
-  value = aws_route53_record.scylla_record.fqdn
+  value = module.route53.scylla_dns
 }
 
 # --------------------------------------------------
@@ -35,9 +35,9 @@ output "scylla_dns" {
 # --------------------------------------------------
 
 output "private_hosted_zone_id" {
-  value = aws_route53_zone.private.zone_id
+  value = module.route53.private_hosted_zone_id
 }
 
 output "private_hosted_zone_name" {
-  value = aws_route53_zone.private.name
+  value = module.route53.private_hosted_zone_name
 }
