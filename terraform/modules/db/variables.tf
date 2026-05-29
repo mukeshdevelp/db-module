@@ -6,6 +6,14 @@ variable "environment" {
   type = string
 }
 
+variable "owner" {
+  type = string
+}
+
+variable "tags" {
+  type = map(string)
+}
+
 variable "region" {
   type = string
 }

@@ -1,4 +1,4 @@
-# LOGIC MOVED TO: modules/db/route53/main.tf
+# LOGIC MOVED TO: modules/db/hosted_zones/main.tf
 # resource "aws_route53_zone" "private" {
 #   name = "internal.otms"
 #

@@ -1,7 +1,14 @@
 region      = "us-east-1"
 environment = "dev"
 application = "otms"
+owner       = "platform-team"
 domain_name = "dev.otms.internal"
+
+tags = {
+  Environment = "dev"
+  Project     = "OTMS"
+  ManagedBy   = "Terraform"
+}
 
 security_groups = {
   redis = {

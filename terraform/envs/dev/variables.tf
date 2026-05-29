@@ -7,8 +7,16 @@ variable "application" {
   type = string
 }
 
+variable "owner" {
+  type = string
+}
+
 variable "domain_name" {
   type = string
+}
+
+variable "tags" {
+  type = map(string)
 }
 
 variable "security_groups" {

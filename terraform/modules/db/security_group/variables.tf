@@ -14,3 +14,7 @@ variable "backend_api_sg_id" {
   type    = string
   default = ""
 }
+
+variable "tags" {
+  type = map(string)
+}

@@ -38,11 +38,9 @@ resource "aws_security_group" "redis_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags = {
-    Environment = "dev"
-    Project     = "OTMS"
-    ManagedBy   = "Terraform"
-  }
+  tags = merge(var.tags, {
+    Name = "${var.project}-${var.environment}-redis-sg"
+  })
 }
 
 resource "aws_security_group" "postgres_sg" {
@@ -74,11 +72,9 @@ resource "aws_security_group" "postgres_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags = {
-    Environment = "dev"
-    Project     = "OTMS"
-    ManagedBy   = "Terraform"
-  }
+  tags = merge(var.tags, {
+    Name = "${var.project}-${var.environment}-postgres-sg"
+  })
 }
 
 resource "aws_security_group" "scylla_sg" {
@@ -110,9 +106,7 @@ resource "aws_security_group" "scylla_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags = {
-    Environment = "dev"
-    Project     = "OTMS"
-    ManagedBy   = "Terraform"
-  }
+  tags = merge(var.tags, {
+    Name = "${var.project}-${var.environment}-scylla-sg"
+  })
 }

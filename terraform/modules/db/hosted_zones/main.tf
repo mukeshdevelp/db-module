@@ -10,25 +10,21 @@ terraform {
 }
 
 resource "aws_route53_zone" "private" {
-  name = "internal.otms"
+  name = var.domain_name
 
   vpc {
     vpc_id = var.vpc_id
   }
 
-  tags = {
-    Name        = "${var.environment}-${var.project}-private-hz"
-    Environment = var.environment
-    Project     = var.project
-    ManagedBy   = "Terraform"
-    Owner       = "platform-team"
-  }
+  tags = merge(var.tags, {
+    Name = "${var.environment}-${var.project}-private-hz"
+  })
 }
 
 resource "aws_route53_record" "redis_record" {
   zone_id = aws_route53_zone.private.zone_id
 
-  name = "redis.internal.otms"
+  name = "redis.${var.domain_name}"
 
   type = "A"
   ttl  = 300
@@ -39,7 +35,7 @@ resource "aws_route53_record" "redis_record" {
 resource "aws_route53_record" "postgres_record" {
   zone_id = aws_route53_zone.private.zone_id
 
-  name = "postgres.internal.otms"
+  name = "postgres.${var.domain_name}"
 
   type = "A"
   ttl  = 300
@@ -50,7 +46,7 @@ resource "aws_route53_record" "postgres_record" {
 resource "aws_route53_record" "scylla_record" {
   zone_id = aws_route53_zone.private.zone_id
 
-  name = "scylla.internal.otms"
+  name = "scylla.${var.domain_name}"
 
   type = "A"
   ttl  = 300
